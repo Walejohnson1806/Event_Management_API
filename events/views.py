@@ -2,11 +2,11 @@ from rest_framework import generics
 from django.contrib.auth.models import User
 from .serializers import UserRegistrationSerializer, UserProfileSerializer, LoginSerializer
 from rest_framework import generics, permissions
-from .models import Event
+from .models import Event, Venue
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth import authenticate
-from .serializers import EventSerializer
+from .serializers import EventSerializer, VenueSerializer
 from rest_framework.authtoken.models import Token
 
 class RegisterUserView(generics.CreateAPIView):
@@ -47,12 +47,22 @@ class EventListCreateView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
+class VenueListCreateView(generics.ListCreateAPIView):
+    queryset = Venue.objects.all()
+    serializer_class = VenueSerializer
+    # permission_classes = [permissions.IsAdminUser]
 
-
+    
 class EventDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+class VenueDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Venue.objects.all()
+    serializer_class = VenueSerializer
+    # permission_classes = [permissions.IsAuthenticated]
+
 
 
 class UserProfileView(generics.RetrieveUpdateAPIView):

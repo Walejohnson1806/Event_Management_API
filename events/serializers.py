@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework import serializers
-from .models import Event
+from .models import Event, Venue
 from rest_framework.authtoken.models import Token
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
@@ -39,3 +39,9 @@ class EventSerializer(serializers.ModelSerializer):
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField()
     password = serializers.CharField(write_only=True)
+
+class VenueSerializer(serializers.ModelSerializer):
+   class Meta:
+        model = Venue
+        fields = ['id', 'name', 'address', 'city', 'capacity', 'contact_phone', 'description', 'created_at']
+ 
